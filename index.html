@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta name="title" content="MAVEC: A Dependency-Aware Multi-Agent Framework for Visual Evidence Composition in Mechanical Engineering Drawings">
-  <meta name="description" content="MAVEC coordinates specialized agents to acquire and connect visual evidence in a Visual Evidence Graph, enabling compositional reasoning over mechanical engineering drawings.">
+  <meta name="description" content="MAVEC coordinates specialized agents to acquire and connect visual evidence in a Visual Evidence Graph, producing answers traceable to the original engineering drawing.">
   <meta name="keywords" content="MAVEC, multi-agent, mechanical engineering drawings, visual evidence graph, compositional reasoning, MLLM, FORGE">
   <!-- Under review: no author / affiliation / citation metadata -->
   <meta name="robots" content="noindex, nofollow">
 
   <meta property="og:type" content="article">
   <meta property="og:title" content="MAVEC: A Dependency-Aware Multi-Agent Framework for Visual Evidence Composition in Mechanical Engineering Drawings">
-  <meta property="og:description" content="MAVEC coordinates specialized agents to acquire and connect visual evidence in a Visual Evidence Graph, enabling compositional reasoning over mechanical engineering drawings.">
+  <meta property="og:description" content="MAVEC coordinates specialized agents to acquire and connect visual evidence in a Visual Evidence Graph, producing answers traceable to the original engineering drawing.">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="MAVEC: A Dependency-Aware Multi-Agent Framework for Visual Evidence Composition in Mechanical Engineering Drawings">
-  <meta name="twitter:description" content="MAVEC coordinates specialized agents to acquire and connect visual evidence in a Visual Evidence Graph, enabling compositional reasoning over mechanical engineering drawings.">
+  <meta name="twitter:description" content="MAVEC coordinates specialized agents to acquire and connect visual evidence in a Visual Evidence Graph, producing answers traceable to the original engineering drawing.">
   <meta name="theme-color" content="#2563eb">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,6 +43,11 @@
     .figure-block img { width: 100%; height: auto; border-radius: 6px; }
     .qual-pane img { border: 1px solid #e5e7eb; cursor: zoom-in; }
     .qual-tabs { margin-top: 1rem; }
+    .mini-table { font-size: 0.95rem; }
+    .mini-table th, .mini-table td { text-align: center !important; }
+    .mini-table th:first-child, .mini-table td:first-child { text-align: left !important; }
+    .mini-table tr.ours td { font-weight: 700; background: #eef4ff; }
+    .analysis-tables { margin-top: 1rem; }
     .figure-caption { font-size: 0.95rem; color: #555; margin-top: 0.6rem; text-align: center; }
   </style>
 </head>
@@ -66,26 +71,40 @@
             <div class="is-size-5 publication-authors">
               <span class="author-block"><b>Under Review</b></span>
             </div>
-            <!-- TODO: Paper / Code 링크가 생기면 아래 주석을 풀고 URL 입력
             <div class="column has-text-centered">
               <div class="publication-links">
                 <span class="link-block">
-                  <a href="PAPER_URL" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                  <a href="https://drive.google.com/drive/folders/11Hfpf_phzeNGnZfnnjbHzKx6FC90243_?usp=sharing" target="_blank" class="external-link button is-normal is-rounded is-dark">
                     <span class="icon"><i class="fas fa-file-pdf"></i></span>
                     <span>Paper</span>
                   </a>
                 </span>
+                <!-- TODO: 코드 레포가 생기면 주석 해제 후 URL 입력
                 <span class="link-block">
                   <a href="https://github.com/herbwood/REPO" target="_blank" class="external-link button is-normal is-rounded is-dark">
                     <span class="icon"><i class="fab fa-github"></i></span>
                     <span>Code</span>
                   </a>
                 </span>
+                -->
               </div>
             </div>
-            -->
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <div class="figure-block" style="max-width:560px">
+          <img src="static/images/teaser.jpg" alt="Traceable evidence chain produced by MAVEC for an engineering drawing question">
+        </div>
+        <h2 class="subtitle has-text-centered">
+          MAVEC combines drawing-level context with localized evidence to recover feature dimensions, component associations
+          and BOM quantities, producing an answer that can be traced back to the original drawing.
+        </h2>
       </div>
     </div>
   </section>
@@ -97,7 +116,7 @@
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-              Mechanical engineering drawings are essential to engineering workflows such as design review and assembly verification, yet understanding them requires compositional reasoning over visual evidence distributed across multiple views and annotations. We propose <b>MAVEC</b>, a dependency-aware multi-agent framework that coordinates specialized agents to progressively acquire and connect visual evidence. The acquired observations are organized into a <b>Visual Evidence Graph (VEG)</b>, which preserves grounded claims and their dependencies to support deterministic reasoning. Experiments on the FORGE benchmark demonstrate that MAVEC achieves 91.47% Overall accuracy and 83.90% Hard accuracy, outperforming all evaluated baselines. Further analyses show that selected visual evidence substantially improves source-grounded claim recovery over random crops, demonstrating the utility of evidence-centric collaboration for engineering drawing understanding.
+              Engineering drawing review requires accurate interpretation of visual information and traceable evidence that engineers can use to verify conclusions. However, relevant information is often distributed across drawing regions, requiring interdependent evidence acquisition and reasoning. We present <b>MAVEC</b>, a dependency-aware multi-agent framework designed to support evidence-grounded engineering drawing review. Specialized agents progressively locate, extract, and link visual information, guided by previously acquired evidence. MAVEC organizes these observations into a <b>Visual Evidence Graph (VEG)</b>, preserving visual provenance and acquisition dependencies for deterministic reasoning. On the FORGE benchmark, MAVEC achieves 91.47% Overall and 83.90% Hard accuracy, outperforming all evaluated baselines. By connecting computed answers to their supporting visual evidence, MAVEC provides an inspectable reasoning process to assist engineers in reviewing technical drawings.
             </p>
           </div>
         </div>
@@ -110,11 +129,11 @@
       <h2 class="title is-3 has-text-centered">MAVEC</h2>
       <div class="figure-block">
         <img src="static/images/overview.jpg" alt="Overview of MAVEC" loading="lazy">
-        <p class="figure-caption">Overview of MAVEC. A Planner generates a semantic reasoning program, a deterministic Controller coordinates specialized agents to acquire visual evidence, and the evidence is organized into a shared Visual Evidence Graph for deterministic answer computation.</p>
+        <p class="figure-caption">Overview of MAVEC. A Planner generates a structured reasoning plan, a deterministic Controller coordinates specialized agents to acquire visual evidence, and the evidence is organized into a shared Visual Evidence Graph for deterministic answer computation.</p>
       </div>
       <div class="content has-text-justified">
         <p>
-          A <b>Planner</b> turns the question into a semantic reasoning program that specifies the operations and the evidence they need, without reading values from the drawing itself. A deterministic <b>Controller</b> then checks which operands are still unresolved and dispatches requests to three role-specialized agents sharing one MLLM: a <b>Locator</b> that finds relevant regions, a <b>Reader</b> that extracts dimensions and BOM values, and a <b>Linker</b> that connects entities such as features, markers and BOM rows. Each observation is validated and added to the <b>Visual Evidence Graph</b> as a typed claim with its visual evidence, provenance and dependencies, so that later requests are driven by what has already been found. Once the graph is complete, a deterministic <b>Executor</b> runs the program over it to derive the answer. The agents are trained with role-conditioned SFT on structured tool outputs, never on final answers.
+          A <b>Planner</b> turns the question into a structured reasoning plan that specifies the operations and the evidence they need, without reading values from the drawing itself. A deterministic <b>Controller</b> then checks which operands are still unresolved and dispatches requests to three role-specialized agents sharing one MLLM: a <b>Locator</b> that finds relevant regions, a <b>Reader</b> that extracts dimensions and BOM values, and a <b>Linker</b> that connects entities such as features, markers and BOM rows. Each observation is validated and added to the <b>Visual Evidence Graph</b> as a typed claim with its visual evidence, provenance and dependencies, so that later requests are driven by what has already been found. Once the graph is complete, a deterministic <b>Executor</b> runs the planned operations over it to derive an answer traceable to the drawing, with an explicit fallback when the required evidence remains incomplete. The agents are trained with role-conditioned SFT on structured tool outputs, never on final answers.
         </p>
       </div>
 
@@ -137,13 +156,51 @@
   </section>
   <section class="section">
     <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Evidence Analysis</h2>
+      <div class="content has-text-justified">
+        <p>
+          We test whether the evidence MAVEC acquires is actually used and actually correct. Replaying the recorded evidence requests while removing, replacing or masking the selected crop lowers Overall accuracy by 1.17&ndash;1.58%p and Hard accuracy by 1.88&ndash;2.63%p, so the localized evidence supports the final predictions. Re-extracting 200 atomic claims recorded in the VEG, selected crops recover 70.50% of them versus 22.00% for random crops, and combining them with the drawing overview reaches 95.00%, showing that the selected regions contain the engineering facts the answer relies on.
+        </p>
+      </div>
+      <div class="columns is-centered analysis-tables">
+        <div class="column is-6">
+          <table class="table is-narrow is-fullwidth mini-table">
+            <thead><tr><th>Visual input</th><th>Overall</th><th>Hard</th><th>Active</th></tr></thead>
+            <tbody>
+              <tr class="ours"><td>Full MAVEC</td><td>91.47</td><td>83.90</td><td>90.74</td></tr>
+              <tr><td>Overview only</td><td>89.89</td><td>81.27</td><td>88.82</td></tr>
+              <tr><td>Random crop</td><td>90.30</td><td>81.65</td><td>89.31</td></tr>
+              <tr><td>Masked</td><td>89.93</td><td>82.02</td><td>88.87</td></tr>
+            </tbody>
+          </table>
+          <p class="figure-caption">Visual evidence ablation: answer accuracy (%) under matched visual-input interventions.</p>
+        </div>
+        <div class="column is-5">
+          <table class="table is-narrow is-fullwidth mini-table">
+            <thead><tr><th>Visual input</th><th>Recovery</th></tr></thead>
+            <tbody>
+              <tr class="ours"><td>Overview + selected crop</td><td>95.00</td></tr>
+              <tr><td>Overview only</td><td>89.50</td></tr>
+              <tr><td>Selected crop</td><td>70.50</td></tr>
+              <tr><td>Random crop</td><td>22.00</td></tr>
+              <tr><td>Masked</td><td>22.00</td></tr>
+            </tbody>
+          </table>
+          <p class="figure-caption">Atomic evidence recovery (%) for the same 200 claims recorded in the VEG.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Qualitative Results</h2>
     </div>
     <div class="container" style="max-width:1200px">
-      <div class="content has-text-justified" style="max-width:960px;margin:0 auto">
+      <div class="content has-text-justified">
         <p>
           Each example shows the original drawing, the agent communication and message flow, the localized visual evidence
-          saved as claims, and the resulting dependency chain in the Visual Evidence Graph that the Executor runs to produce
+          recorded as claims, and the resulting dependency chain in the Visual Evidence Graph that the Executor runs to produce
           the answer. Select a reasoning family below; click an image to open it at full size.
         </p>
       </div>
